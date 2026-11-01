@@ -1,60 +1,60 @@
-# Note di progetto – Big Data pipeline
+# Project Notes – Big Data Pipeline
 
-## Ambiente di sviluppo
+## Development Environment
 
-Il progetto è sviluppato su Windows tramite WSL2 (Windows Subsystem for Linux) con Ubuntu, su un PC con 16 GB di RAM. WSL2 esegue un kernel Linux reale: evita i problemi di compatibilità di Spark/Hadoop su Windows nativo e riproduce l'ambiente Linux tipico dei cluster Big Data. Rispetto a una macchina virtuale tradizionale alloca la memoria in modo dinamico, lasciando più risorse a Spark e ai container.
+The project is developed on Windows through WSL2 (Windows Subsystem for Linux) running Ubuntu, on a PC with 16 GB of RAM. WSL2 runs a real Linux kernel: it avoids the known Spark/Hadoop compatibility issues on native Windows and reproduces the Linux environment typical of Big Data clusters. Compared to a traditional virtual machine, it allocates memory dynamically, leaving more resources available to Spark and to the containers.
 
-| Componente | Versione | Ruolo |
+| Component | Version | Role |
 |---|---|---|
-| Ubuntu (WSL2) | 26.04 | Ambiente Linux |
-| Java (OpenJDK) | 17.0.20.1 | Runtime richiesto da Spark (JVM) |
-| Python | 3.14.4 | Linguaggio degli script |
-| PySpark | 4.3.0 | Motore di elaborazione distribuita |
-| pandas | 2.3.3 | Esplorazione dati (< 3 per compatibilità con PySpark) |
-| pyarrow | 26.0.0 | Lettura/scrittura Parquet |
+| Ubuntu (WSL2) | 26.04 | Linux environment |
+| Java (OpenJDK) | 17.0.20.1 | Runtime required by Spark (JVM) |
+| Python | 3.14.4 | Scripting language |
+| PySpark | 4.3.0 | Distributed processing engine |
+| pandas | 2.3.3 | Data exploration (< 3 for PySpark compatibility) |
+| pyarrow | 26.0.0 | Parquet read/write |
 | Docker | 
 'docker'
 to
 
 about
 
-https://docs.docker.com/go/wsl2/ | Containerizzazione dei servizi |
+https://docs.docker.com/go/wsl2/ | Service containerization |
 | Docker Compose | 
 The command 'docker' could not be found in this WSL 2 distro.
 We recommend to activate the WSL integration in Docker Desktop settings.
 
 For details about using Docker Desktop with WSL 2, visit:
 
-https://docs.docker.com/go/wsl2/ | Orchestrazione dei container |
-| Git / GitHub | 2.53.0 | Versionamento del codice |
+https://docs.docker.com/go/wsl2/ | Container orchestration |
+| Git / GitHub | 2.53.0 | Version control |
 
-## Motivazioni delle scelte
+## Design Rationale
 
-- Docker: ogni servizio (storage, Spark, database) gira in un container con versione fissata, quindi l'intera pipeline si avvia con un solo comando su qualsiasi macchina. Risponde al requisito di riproducibilità.
-- Spark: elabora i dati in memoria e in parallelo; lo stesso codice gira in locale e su un cluster, quindi la soluzione è pronta a scalare anche se il dataset attuale è contenuto.
-- Ambiente virtuale Python + requirements.txt: fissa le versioni delle librerie per ottenere gli stessi risultati in esecuzioni diverse.
-- pandas < 3: PySpark non supporta ancora pienamente pandas 3, versione bloccata per evitare incompatibilità.
-- Dati esclusi dal repository: i dataset non sono versionati per le dimensioni; vengono riscaricati dallo script di ingestion dalla fonte originale, citata nel report.
+- Docker: each service (storage, Spark, database) runs in a container with a pinned version, so the whole pipeline starts with a single command on any machine. This meets the reproducibility requirement.
+- Spark: processes data in memory and in parallel; the same code runs locally and on a cluster, so the solution is ready to scale even if the current dataset is small.
+- Python virtual environment + requirements.txt: pins library versions so that different runs produce the same results.
+- pandas < 3: PySpark does not yet fully support pandas 3, so the version is pinned to avoid incompatibilities.
+- Data excluded from the repository: datasets are not versioned because of their size; they are re-downloaded by the ingestion script from the original source, which is cited in the report.
 
-## Struttura del repository
+## Repository Structure
 
 ~~~
 bigdata-project/
-├── data/raw/          dati scaricati, mai modificati (zona raw del data lake)
-├── data/processed/    dati elaborati in formato Parquet
-├── src/               script di ingestion, processing e query
-├── notebooks/         esplorazione e prove
-├── docs/              report e schemi architetturali
-├── note.md            appunti su scelte e motivazioni
-└── requirements.txt   dipendenze Python con versioni fissate
+├── data/raw/          downloaded data, never modified (data lake raw zone)
+├── data/processed/    processed data in Parquet format
+├── src/               ingestion, processing and query scripts
+├── notebooks/         exploration and experiments
+├── docs/              report and architecture diagrams
+├── note.md            notes on design choices and rationale
+└── requirements.txt   Python dependencies with pinned versions
 ~~~
 
-## Verifica dell'ambiente
+## Environment Check
 
-Test eseguito con src/test_spark.py: creazione di un DataFrame Spark e scrittura in Parquet completate correttamente. I warning su loopback address e native-hadoop library sono attesi in ambiente WSL locale e non influiscono sul funzionamento.
+Tested with src/test_spark.py: creating a Spark DataFrame and writing it to Parquet completed successfully. Warnings about the loopback address and the native-hadoop library are expected in a local WSL environment and do not affect functionality.
 
 ## Dataset
-(da completare)
+(to be completed)
 
-## Domande di analisi
-(da completare)
+## Analysis Questions
+(to be completed)
