@@ -41,6 +41,11 @@ bigdata-project/
 
 Tested with src/test_spark.py: creating a Spark DataFrame and writing it to Parquet completed successfully. Warnings about the loopback address and the native-hadoop library are expected in a local WSL environment and do not affect functionality.
 
+## Issues Encountered
+
+- Docker not available inside WSL: Docker Desktop was installed on Windows, but the `docker` command was not found in the Ubuntu distro. Fixed by enabling Settings → Resources → WSL Integration → Ubuntu in Docker Desktop.
+- Docker Desktop startup timeout (`HCS_E_CONNECTION_TIMEOUT`): the internal docker-desktop WSL instance did not respond. Fixed by running `wsl --shutdown`, updating WSL with `wsl --update` and restarting the PC.
+
 ## Dataset
 (to be completed)
 
