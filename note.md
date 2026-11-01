@@ -46,6 +46,7 @@ Tested with src/test_spark.py: creating a Spark DataFrame and writing it to Parq
 ## Issues Encountered
 
 - Docker not available inside WSL: Docker Desktop was installed on Windows, but the `docker` command was not found in the Ubuntu distro. Fixed by enabling Settings → Resources → WSL Integration → Ubuntu in Docker Desktop.
+- pandas 3 compatibility warning: running the Spark test printed a FutureWarning stating that PySpark does not yet fully support pandas >= 3.0.0. Fixed by downgrading with `pip install "pandas<3"` and updating requirements.txt.
 - Docker Desktop must be running on Windows before using `docker` from the Ubuntu terminal, since the Docker engine runs in a separate WSL instance (docker-desktop) shared with the Ubuntu distro.
 - Docker Desktop startup timeout (`HCS_E_CONNECTION_TIMEOUT`): the internal docker-desktop WSL instance did not respond. Fixed by running `wsl --shutdown`, updating WSL with `wsl --update` and restarting the PC.
 
