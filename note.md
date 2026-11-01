@@ -12,20 +12,8 @@ The project is developed on Windows through WSL2 (Windows Subsystem for Linux) r
 | PySpark | 4.3.0 | Distributed processing engine |
 | pandas | 2.3.3 | Data exploration (< 3 for PySpark compatibility) |
 | pyarrow | 26.0.0 | Parquet read/write |
-| Docker | 
-'docker'
-to
-
-about
-
-https://docs.docker.com/go/wsl2/ | Service containerization |
-| Docker Compose | 
-The command 'docker' could not be found in this WSL 2 distro.
-We recommend to activate the WSL integration in Docker Desktop settings.
-
-For details about using Docker Desktop with WSL 2, visit:
-
-https://docs.docker.com/go/wsl2/ | Container orchestration |
+| Docker | 29.9.2 | Service containerization |
+| Docker Compose | 5.6.1 | Container orchestration |
 | Git / GitHub | 2.53.0 | Version control |
 
 ## Design Rationale
