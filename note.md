@@ -1,5 +1,7 @@
 # Project Notes – Big Data Pipeline
 
+Repository: https://github.com/nello0503/bigdata-project
+
 ## Development Environment
 
 The project is developed on Windows through WSL2 (Windows Subsystem for Linux) running Ubuntu, on a PC with 16 GB of RAM. WSL2 runs a real Linux kernel: it avoids the known Spark/Hadoop compatibility issues on native Windows and reproduces the Linux environment typical of Big Data clusters. Compared to a traditional virtual machine, it allocates memory dynamically, leaving more resources available to Spark and to the containers.
@@ -44,6 +46,7 @@ Tested with src/test_spark.py: creating a Spark DataFrame and writing it to Parq
 ## Issues Encountered
 
 - Docker not available inside WSL: Docker Desktop was installed on Windows, but the `docker` command was not found in the Ubuntu distro. Fixed by enabling Settings → Resources → WSL Integration → Ubuntu in Docker Desktop.
+- Docker Desktop must be running on Windows before using `docker` from the Ubuntu terminal, since the Docker engine runs in a separate WSL instance (docker-desktop) shared with the Ubuntu distro.
 - Docker Desktop startup timeout (`HCS_E_CONNECTION_TIMEOUT`): the internal docker-desktop WSL instance did not respond. Fixed by running `wsl --shutdown`, updating WSL with `wsl --update` and restarting the PC.
 
 ## Dataset
