@@ -51,7 +51,7 @@ Tested with src/test_spark.py: creating a Spark DataFrame and writing it to Parq
 - Docker Desktop startup timeout (`HCS_E_CONNECTION_TIMEOUT`): the internal docker-desktop WSL instance did not respond. Fixed by running `wsl --shutdown`, updating WSL with `wsl --update` and restarting the PC.
 
 ## Dataset
-(to be completed)
+(https://data.opentransportdata.swiss/dataset/2091d9b2-8012-4d70-bf90-214ee6a9b458/resource/9f155590-7ca9-4e18-b292-f658fea49015/download/2026-10-31_istdaten.csv)
 
 ## Analysis Questions
 (to be completed)
