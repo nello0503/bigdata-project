@@ -116,7 +116,37 @@ Definitions used throughout:
    For each train journey, compares the delay at the first and at the last stop (stops ordered by scheduled time), and aggregates the difference by service category (IC, IR, RE, S…).
    Columns: FAHRT_BEZEICHNER, VERKEHRSMITTEL_TEXT, ANKUNFTSZEIT, ABFAHRTSZEIT, delay.
 
-Scope decisions to be confirmed during exploration:
-- only measured times (status REAL), or forecasts as well;
-- only Swiss stops, or foreign stops as well.
+Scope decisions: see "Data Exploration" below.
 
+## Data Exploration
+
+Script: `src/explore.py` (PySpark, local mode). Full output: `docs/exploration_output.txt`.
+Execution time on one daily file (522 MB): ~17 s.
+
+### Volumes (one day, 2026-10-31)
+
+| Metric | Value |
+|---|---|
+| Rows | 2,139,969 |
+| Distinct journeys | 124,850 |
+| Distinct stops | 40,808 |
+| Operators | 137 |
+
+One day already contains over 2 million rows: one year would be roughly 780 million rows, which justifies a distributed processing engine.
+
+### Findings
+
+- **Transport modes:** buses 80.4%, trams 10.8%, trains 8.0% (171,018 rows), plus metro, rack railway and boats.
+- **Inconsistent values:** the same mode appears as `Bus` and `BUS` (12,352 rows), so PRODUKT_ID must be normalized before grouping.
+- **Time status (train arrivals):** REAL 79.3%, NULL 8.2%, UNBEKANNT (unknown) 6.7%, PROGNOSE 5.7%. NULL status matches rows with no scheduled arrival (first stop of a journey, 14,847 rows), so it is expected. Among rows with an arrival time, about 87% are measured (REAL).
+- **Country of the stop (trains):** Switzerland (UIC code 85) 91.8%; the rest are stops in Germany (80), Austria (81), France (87) and Italy (83), served by cross-border trains (ICE, TGV, TER, RB…).
+- **Service categories (trains):** S 60.8%, R 20.0%, RE 6.2%, IR 5.3%, IC 2.0%, followed by foreign categories.
+- **Flags (train rows):** 5,611 cancelled, 1,352 extra journeys, 118 pass-through. These are rows, not journeys: cancellation rates must be computed on distinct journeys.
+- **Missing values (trains):** AN_PROGNOSE is empty in 26,293 rows vs 14,847 for ANKUNFTSZEIT: the difference corresponds to cancelled stops and stops without a reliable actual time.
+
+### Scope decisions
+
+1. **Delays are computed only on measured times** (status REAL); PROGNOSE and UNBEKANNT are excluded, losing about 13% of train arrivals in exchange for reliable values.
+2. **Only Swiss stops** (BPUIC starting with 85) are analysed; foreign stops are kept in the raw zone.
+3. **Cancelled journeys are excluded from delay statistics** and analysed separately as a cancellation rate.
+4. **PRODUKT_ID is normalized to upper case** before any aggregation.
