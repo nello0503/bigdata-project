@@ -52,14 +52,14 @@ Tested with src/test_spark.py: creating a Spark DataFrame and writing it to Parq
 
 ## Dataset
 
-**Name:** Ist-Daten (actual data) – Swiss public transport
-**Publisher:** Open Data Mobility Switzerland (opentransportdata.swiss)
-**Dataset page:** https://opendata.swiss/en/perma/istdaten@oevch
-**File used:** 2026-10-31_istdaten.csv
-**Download URL:** https://data.opentransportdata.swiss/dataset/2091d9b2-8012-4d70-bf90-214ee6a9b458/resource/9f155590-7ca9-4e18-b292-f658fea49015/download/2026-10-31_istdaten.csv
-**License:** open use, source must be cited
-**Format:** CSV, `;` separator, UTF-8
-**Size:** 522 MB, 2,139,969 rows (one day of service), 22 columns
+- **Name:** Ist-Daten (actual data) – Swiss public transport
+- **Publisher:** Open Data Mobility Switzerland (opentransportdata.swiss)
+- **Dataset page:** https://opendata.swiss/en/perma/istdaten@oevch
+- **File used:** 2026-10-31_istdaten.csv
+- **Download URL:** https://data.opentransportdata.swiss/dataset/2091d9b2-8012-4d70-bf90-214ee6a9b458/resource/9f155590-7ca9-4e18-b292-f658fea49015/download/2026-10-31_istdaten.csv
+- **License:** open use, source must be cited
+- **Format:** CSV, `;` separator, UTF-8
+- **Size:** 522 MB, 2,139,969 rows (one day of service), 22 columns
 
 One file is published per day and contains every stop of every journey operated on that day (trains, buses, trams…), with scheduled and actual/forecast arrival and departure times. Daily files are only kept online for a limited period; older days are available in the historical archive.
 
