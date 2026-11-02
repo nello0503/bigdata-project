@@ -91,4 +91,32 @@ Delay is computed as `AN_PROGNOSE - ANKUNFTSZEIT` (arrival) and `AB_PROGNOSE - A
 - Foreign stops are present (e.g. DB trains in Germany): a filter on Swiss stops may be needed.
 
 ## Analysis Questions
-(to be completed)
+
+Definitions used throughout:
+- Delay = actual/forecast time - scheduled time (AN_PROGNOSE - ANKUNFTSZEIT).
+- Punctuality = share of arrivals with delay < 3 minutes (SBB definition).
+- Journeys are counted as distinct FAHRT_BEZEICHNER, not as rows (one row = one journey at one stop).
+
+1. **For each transport mode, which stops have the highest average arrival delay?**
+   Top 5 stops per mode (train, bus, tram…), considering only stops with at least 50 arrivals, to exclude isolated cases.
+   Columns: PRODUKT_ID, HALTESTELLEN_NAME, ANKUNFTSZEIT, AN_PROGNOSE.
+
+2. **Which operator runs the most journeys, and are larger operators also more punctual?**
+   For each operator: number of distinct journeys, average arrival delay and share of cancelled journeys.
+   Columns: BETREIBER_ABK, FAHRT_BEZEICHNER, delay, FAELLT_AUS_TF.
+
+3. **Which canton has the best punctuality score?**
+   Punctuality per canton, with average delay and number of arrivals reported alongside. Requires a join with the official service points list (BPUIC -> municipality, canton). Rail services only; cantons below a minimum number of arrivals are excluded.
+
+4. **How does punctuality change during the day?**
+   Punctuality per hour of scheduled arrival, to compare peak hours (7-9, 17-19) with off-peak hours. Rail services only.
+   Columns: ANKUNFTSZEIT (hour), delay.
+
+5. **Does delay accumulate along a journey?**
+   For each train journey, compares the delay at the first and at the last stop (stops ordered by scheduled time), and aggregates the difference by service category (IC, IR, RE, S…).
+   Columns: FAHRT_BEZEICHNER, VERKEHRSMITTEL_TEXT, ANKUNFTSZEIT, ABFAHRTSZEIT, delay.
+
+Scope decisions to be confirmed during exploration:
+- only measured times (status REAL), or forecasts as well;
+- only Swiss stops, or foreign stops as well.
+
