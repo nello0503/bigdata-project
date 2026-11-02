@@ -51,7 +51,44 @@ Tested with src/test_spark.py: creating a Spark DataFrame and writing it to Parq
 - Docker Desktop startup timeout (`HCS_E_CONNECTION_TIMEOUT`): the internal docker-desktop WSL instance did not respond. Fixed by running `wsl --shutdown`, updating WSL with `wsl --update` and restarting the PC.
 
 ## Dataset
-(https://data.opentransportdata.swiss/dataset/2091d9b2-8012-4d70-bf90-214ee6a9b458/resource/9f155590-7ca9-4e18-b292-f658fea49015/download/2026-10-31_istdaten.csv)
+
+**Name:** Ist-Daten (actual data) – Swiss public transport
+**Publisher:** Open Data Mobility Switzerland (opentransportdata.swiss)
+**Dataset page:** https://opendata.swiss/en/perma/istdaten@oevch
+**File used:** 2026-10-31_istdaten.csv
+**Download URL:** https://data.opentransportdata.swiss/dataset/2091d9b2-8012-4d70-bf90-214ee6a9b458/resource/9f155590-7ca9-4e18-b292-f658fea49015/download/2026-10-31_istdaten.csv
+**License:** open use, source must be cited
+**Format:** CSV, `;` separator, UTF-8
+**Size:** 522 MB, 2,139,969 rows (one day of service), 22 columns
+
+One file is published per day and contains every stop of every journey operated on that day (trains, buses, trams…), with scheduled and actual/forecast arrival and departure times. Daily files are only kept online for a limited period; older days are available in the historical archive.
+
+### Main columns
+
+| Column | Meaning |
+|---|---|
+| BETRIEBSTAG | Operating day |
+| FAHRT_BEZEICHNER | Unique journey ID |
+| BETREIBER_ABK / BETREIBER_NAME | Operator (e.g. SBB, DB) |
+| PRODUKT_ID | Transport mode (Zug = train, Bus, Tram…) |
+| LINIEN_TEXT / VERKEHRSMITTEL_TEXT | Line and service category (IC, IR, RE, S…) |
+| ZUSATZFAHRT_TF | Extra journey not in timetable |
+| FAELLT_AUS_TF | Journey cancelled |
+| BPUIC / HALTESTELLEN_NAME | Stop code and name |
+| ANKUNFTSZEIT / AN_PROGNOSE | Scheduled vs actual/forecast arrival |
+| ABFAHRTSZEIT / AB_PROGNOSE | Scheduled vs actual/forecast departure |
+| AN_PROGNOSE_STATUS / AB_PROGNOSE_STATUS | Quality of the actual time (REAL, PROGNOSE…) |
+| DURCHFAHRT_TF | Pass-through without stopping |
+
+Delay is computed as `AN_PROGNOSE - ANKUNFTSZEIT` (arrival) and `AB_PROGNOSE - ABFAHRTSZEIT` (departure).
+
+### Data quality observations (first inspection)
+
+- Separator is `;`, not `,`.
+- Two timestamp formats: scheduled times as `dd.MM.yyyy HH:mm`, actual times as `dd.MM.yyyy HH:mm:ss`.
+- Empty fields are expected: no arrival at the first stop, no departure at the last stop.
+- Not all times are measured: the status columns distinguish real measurements (REAL) from forecasts (PROGNOSE). Delay analysis must state which statuses are included.
+- Foreign stops are present (e.g. DB trains in Germany): a filter on Swiss stops may be needed.
 
 ## Analysis Questions
 (to be completed)
