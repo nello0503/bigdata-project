@@ -9,7 +9,7 @@ End-to-end data pipeline covering ingestion, processing, storage and analytics, 
 **Ist-Daten (actual data)** – Swiss public transport, published daily by Open Data Mobility Switzerland.
 Each file contains every stop of every journey operated on one day, with scheduled and actual arrival/departure times, used to analyse delays and cancellations.
 
-- **Dataset page:** https://opendata.swiss/en/perma/istdaten@oevch
+- **Dataset page:** https://data.opentransportdata.swiss/dataset/ist-daten-v2
 - **File used:** `2026-10-31_istdaten.csv` (~522 MB, CSV with `;` separator)
 - **License:** Open use, must provide the source
 
