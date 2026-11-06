@@ -163,3 +163,19 @@ One day already contains over 2 million rows: one year would be roughly 780 mill
 | SCHIFF | 256 | 72.3 |
 
 Decision: REAL filter applied to all modes; ZAHNRADBAHN and SCHIFF excluded from Q1 (low volume and coverage).
+
+### Benchmark on 7 days (2026-10-28 -> 2026-11-03)
+
+Full output: `docs/parquet_benchmark_7days.txt`.
+
+| Metric | CSV | Parquet | Gain |
+|---|---|---|---|
+| Size on disk | 4,063.7 MB (7 files) | 278.5 MB (35 files) | -93.1% |
+| Count all rows | 5.34 s | 0.23 s | 22.9x |
+| Trains per category (2 of 22 columns) | 14.98 s | 0.47 s | 31.7x |
+
+Conversion time: 90.7 s.
+
+Compared with one day: the size reduction is stable (93%), CSV query time grows roughly linearly with data volume, while Parquet time stays almost constant (metadata for counts, column pruning for the category query). The speed-up grows from 3-4x to 23-32x, confirming that the one-day result was dominated by Spark's fixed overhead.
+
+Weekend files are smaller (Sat 522 MB, Sun 406 MB vs ~620-650 MB on weekdays): fewer journeys are operated.
