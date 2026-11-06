@@ -150,3 +150,16 @@ One day already contains over 2 million rows: one year would be roughly 780 mill
 2. **Only Swiss stops** (BPUIC starting with 85) are analysed; foreign stops are kept in the raw zone.
 3. **Cancelled journeys are excluded from delay statistics** and analysed separately as a cancellation rate.
 4. **PRODUKT_ID is normalized to upper case** before any aggregation.
+
+### REAL coverage by transport mode (2026-10-31, arrivals only)
+
+| Mode | Arrivals | % REAL |
+|---|---|---|
+| BUS | 1,634,439 | 94.7 |
+| TRAM | 219,425 | 95.9 |
+| ZUG | 156,171 | 86.9 |
+| METRO | 3,788 | 99.5 |
+| ZAHNRADBAHN | 1,060 | 56.2 |
+| SCHIFF | 256 | 72.3 |
+
+Decision: REAL filter applied to all modes; ZAHNRADBAHN and SCHIFF excluded from Q1 (low volume and coverage).
